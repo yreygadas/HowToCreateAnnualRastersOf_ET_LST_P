@@ -14,15 +14,19 @@ from arcpy import env
 from arcpy.sa import *
 arcpy.env.overwriteOutput = True
 ################################################################################
-# SET BEFORE RUNING THE SCRIPT
-startYear= 2022
-endYear= 2022
-path = arcpy.env.workspace = 'D:/Yunuen/6PostDoc/Data/ET/Rasters' #This is the directory in which you have the ET rasters
-arcpy.env.mask = 'D:/Yunuen/6PostDoc/Data/Transfer/Layers/Extended_sa.shp' # This is the study area polygon in .shp format
-arcpy.env.cellSize = 'D:/Yunuen/6PostDoc/Data/ET/Rasters/m200301_modisSSEBopETv5_actual_mm.tif' # This is any of the ET rasters
-arcpy.env.snapRaster = 'D:/Yunuen/6PostDoc/Data/ET/Rasters/m200301_modisSSEBopETv5_actual_mm.tif' # This is any of the ET rasters
+# SET BEFORE RUNNING THE SCRIPT
+startYear= 2021
+endYear= 2021
+path =  'D:/Yunuen/6PostDoc/Data/ET/Rasters' #This is the directory in which you have the ET rasters
+studyArea= 'D:/Yunuen/6PostDoc/Data/Transfer/Layers/Extended_sa.shp' # This is the study area polygon in .shp format
+cellSize = 'D:/Yunuen/6PostDoc/Data/ET/Rasters/m200301_modisSSEBopETv5_actual_mm.tif' # This is any of the ET rasters
 ################################################################################`
 ###################### The script starts here ##################################
+# Set parameters
+arcpy.env.workspace = path
+arcpy.env.mask = studyArea
+arcpy.env.cellSize = cellSize
+arcpy.env.snapRaster = cellSize
 
 # Create a list of years
 years = list(range (startYear, endYear+1,1))
@@ -62,6 +66,6 @@ for ls in zip(janlist,feblist,marlist,aprlist,maylist,junlist,jullist,auglist,se
 ##for composite in monthlyCom:
     print (ls)
     compositeSUM = CellStatistics(ls, "SUM", "DATA")
-    compositeSUM.save("ET_"+str(counter)+".tif")
+    compositeSUM.save("ETTEST_"+str(counter)+".tif")
     counter =counter+1
     print("***calculated***")
